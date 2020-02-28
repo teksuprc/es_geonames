@@ -1,0 +1,130 @@
+
+###
+PUT http://localhost:9200/*/_settings
+content-type: application/json
+
+{
+    "index": {
+        "number_of_replicas": 0
+    }
+}
+
+
+###
+PUT http://localhost:9200/documents
+content-type: application/json
+
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "mapping.total_fields.limit": 3500
+  }
+}
+
+
+###
+DELETE http://localhost:9200/documents
+
+###
+DELETE http://localhost:9200/geonames
+
+# curl -XPUT 'localhost:9200/geonames' -H 'Content-Type: application/json' -d @geonames_mapping.json
+###
+PUT http://localhost:9200/documents
+content-type: application/json
+
+{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0
+    },
+    "mappings": {
+        "properties": {
+            "original": {"type": "object"},
+            "georegistration": [
+              {
+                "attribs": {
+                  "type": {"type": "keyword", "index": "true"},
+                },
+                "results": {
+                  "places.lat": [{"type": "float"}],
+                  "places.lng": [{"type": "float"}],
+                  "places.alt": [{"type": "float"}],
+                  "places.country_code": [{"type": "keyword", "index": "true"}],
+                  "places.admin1": [{"type": "text"}],
+                  "places.admin2": [{"type": "text",}],
+                  "places.population": [{"type": "long"}],
+                  "places.geohash": [{"type": "keyword", "index": "true"}],
+                  "places.mgrs": [{"type": "keyword", "index": "true"}],
+                  "places.timzeone": [{"type": "keyword", "index":  "true"}],
+                  "places.confidence.confidence_level": [{"type": "float"}],
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+
+# curl -XPUT 'localhost:9200/geonames' -H 'Content-Type: application/json' -d @geonames_mapping.json
+###
+PUT http://localhost:9200/geonames
+content-type: application/json
+
+{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0
+    },
+    "mappings": {
+        "properties": {
+            "geonameid": {"type": "keyword", "index": "true"},
+            "placename": {"type": "text"},
+            "asciiname": {"type": "text"},
+            "alternativenames": {"type": "text", "similarity": "boolean"},
+            "coordinates": {"type": "geo_point"},
+            "lat": {"type": "float"},
+            "lng": {"type": "float"},
+            "feature_class":  {"type": "keyword", "index":  "true"},
+            "feature_code": {"type": "keyword", "index":    "true"},
+            "country_code2": {"type": "keyword", "index":   "true"},
+            "cc2":  {"type": "keyword"}, 
+            "admin1": {"type": "keyword", "index":  "true"},
+            "admin2": {"type": "keyword", "index":  "true"},
+            "admin3": {"type": "keyword", "index":  "true"},
+            "admin4": {"type": "keyword", "index":  "true"},
+            "population": {"type":  "long"},
+            "elevation": {"type":  "long"},
+            "dem": {"type":  "long"},
+            "geohash":  {"type": "keyword", "index": "true"},
+            "mgrs":  {"type": "keyword", "index": "true"},
+            "timzeone":  {"type": "keyword", "index":  "true"},
+            "modification_date": {"type": "date", "format": "date"}
+        }
+    } 
+}
+
+
+###
+GET http://localhost:9200/geonames/_search
+content-type: application/json
+
+{
+  "query": { 
+    "bool": { 
+      "must": [
+        {"match": {"alternativenames":"Vienna"}}
+      ],
+      "filter": [ 
+        { "term":  { "feature_class": "P" }}
+      ]
+    }
+  }
+}
+
+
+###
+GET http://localhost:9200/geonames/_search?q=Tolyatti

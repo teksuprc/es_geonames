@@ -1,0 +1,24 @@
+# python
+*.pyo
+*.pyc
+__pycache__/cle
+*.py[cod]
+
+# vscode
+.vscode
+
+# mac
+.DS_Store
+
+# local directories and tar/zip files
+data/geonames/*
+!data/geonames/.gitkeep
+
+data/nga/*
+!data/nga/.gitkeep
+
+indices/geonames_760_index/*
+!indices/geonames_760_index/.gitkeep
+
+kibana/*
+allCountries.zip

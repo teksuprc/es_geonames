@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  es01_760:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.6.0
+    container_name: es01_760
+    environment:
+      - node.name=es01_760
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01_760
+      - cluster.initial_master_nodes=es01_760
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - indices/geonames_760_index:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200

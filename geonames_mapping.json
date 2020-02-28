@@ -1,0 +1,34 @@
+{
+    "settings" : {
+        "number_of_shards" : 1,
+        "number_of_replicas" : 1,
+        "refresh_interval" : -1
+    },
+    "mappings" : {
+        "properties" : {
+            "geonameid" : {"type" : "keyword", "index": "true"},
+            "placename" : {"type" : "text"},
+            "asciiname" : {"type" : "text"},
+            "alternativenames" : {"type" : "text", "similarity" : "boolean"},
+            "coordinates" : {"type" : "geo_point"},
+            "lat": {"type" : "float"},
+            "lng": {"type" : "float"},
+            "feature_class" :  {"type" : "keyword", "index":  "true"},
+            "feature_code" : {"type" : "keyword", "index":    "true"},
+            "country_code2" : {"type" : "keyword", "index":   "true"},
+            "cc2" :  {"type" : "keyword"}, 
+            "admin1_code" : {"type" : "keyword", "index":  "true"},
+            "admin2_code" : {"type" : "keyword", "index":  "true"},
+            "admin3_code" : {"type" : "keyword", "index":  "true"},
+            "admin4_code" : {"type" : "keyword", "index":  "true"},
+            "population" : {"type" :  "long"},
+            "elevation" : {"type" :  "long"},
+            "dem" : {"type" :  "long"},
+            "geohash" :  {"type" : "keyword", "index": "true"},
+            "precision" : {"type" : "integer"},
+            "mgrs" :  {"type" : "keyword", "index": "true"},
+            "timzeone" :  {"type" : "keyword", "index":  "true"},
+            "modification_date" : {"type" : "date", "format": "date"}
+        }
+    } 
+}
